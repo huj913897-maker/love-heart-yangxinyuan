@@ -2,20 +2,26 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>杨欣媛 ❤</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+  }
+
   body {
-    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     background: radial-gradient(ellipse at center, #1a0a1a 0%, #0a0010 60%, #000 100%);
-    overflow: hidden;
-    font-family: 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
+    font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
     cursor: default;
+    touch-action: manipulation;
   }
 
   canvas#particles {
@@ -32,10 +38,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
+    padding: 20px;
   }
 
-  /* Heart SVG */
   .heart-wrapper {
     position: relative;
     animation: floatHeart 3s ease-in-out infinite;
@@ -43,30 +49,30 @@
 
   @keyframes floatHeart {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-18px); }
+    50% { transform: translateY(-14px); }
   }
 
   .heart-glow {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    width: 340px;
-    height: 340px;
-    background: radial-gradient(circle, rgba(255, 80, 130, 0.35) 0%, transparent 70%);
+    width: min(300px, 70vw);
+    height: min(300px, 70vw);
+    background: radial-gradient(circle, rgba(255, 80, 130, 0.4) 0%, transparent 70%);
     border-radius: 50%;
     animation: glowPulse 2s ease-in-out infinite;
     pointer-events: none;
   }
 
   @keyframes glowPulse {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
-    50% { transform: translate(-50%, -50%) scale(1.25); opacity: 1; }
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+    50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
   }
 
   .heart-svg {
-    width: 320px;
-    height: 300px;
-    filter: drop-shadow(0 0 25px rgba(255, 60, 110, 0.6));
+    width: min(280px, 72vw);
+    height: auto;
+    filter: drop-shadow(0 0 20px rgba(255, 60, 110, 0.55));
     animation: heartBeat 1.2s ease-in-out infinite;
     position: relative;
     z-index: 2;
@@ -74,56 +80,43 @@
 
   @keyframes heartBeat {
     0%, 100% { transform: scale(1); }
-    14% { transform: scale(1.12); }
-    28% { transform: scale(1); }
-    42% { transform: scale(1.12); }
-    56% { transform: scale(1); }
-  }
-
-  /* Gradient heart fill */
-  .heart-gradient-start {
-    stop-color: #ff2d6d;
-  }
-  .heart-gradient-end {
-    stop-color: #ff6b9d;
+    15% { transform: scale(1.1); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.1); }
+    60% { transform: scale(1); }
   }
 
   .name-container {
     position: absolute;
-    top: 50%; left: 50%;
+    top: 48%; left: 50%;
     transform: translate(-50%, -50%);
     z-index: 3;
     text-align: center;
     pointer-events: none;
-    animation: nameShine 2.5s ease-in-out infinite;
-  }
-
-  @keyframes nameShine {
-    0%, 100% { filter: brightness(1); }
-    50% { filter: brightness(1.3); }
+    width: 100%;
   }
 
   .name-text {
-    font-size: 38px;
+    display: inline-block;
+    font-size: min(36px, 9vw);
     font-weight: 700;
-    background: linear-gradient(135deg, #fff5f5, #ffccd5, #fff0f3, #ffe0e6);
+    background: linear-gradient(135deg, #fff5f5 0%, #ffccd5 40%, #fff0f3 70%, #ffe0e6 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: none;
-    letter-spacing: 3px;
+    letter-spacing: 4px;
     animation: textShimmer 3s ease-in-out infinite;
+    white-space: nowrap;
   }
 
   @keyframes textShimmer {
-    0%, 100% { filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.4)); }
-    50% { filter: drop-shadow(0 0 14px rgba(255, 180, 200, 0.8)); }
+    0%, 100% { filter: drop-shadow(0 0 6px rgba(255,255,255,0.35)); }
+    50% { filter: drop-shadow(0 0 16px rgba(255,180,200,0.8)); }
   }
 
-  /* Subtitle */
   .subtitle {
-    color: rgba(255, 200, 220, 0.8);
-    font-size: 16px;
+    color: rgba(255, 200, 220, 0.85);
+    font-size: min(15px, 4vw);
     letter-spacing: 6px;
     animation: fadeInOut 3s ease-in-out infinite;
   }
@@ -133,7 +126,6 @@
     50% { opacity: 1; }
   }
 
-  /* Floating small hearts */
   .floating-hearts {
     position: fixed;
     top: 0; left: 0;
@@ -146,27 +138,16 @@
     position: absolute;
     animation: rise linear infinite;
     opacity: 0;
-    font-size: 20px;
+    will-change: transform;
   }
 
   @keyframes rise {
-    0% {
-      transform: translateY(100vh) scale(0) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 0.8;
-    }
-    90% {
-      opacity: 0.3;
-    }
-    100% {
-      transform: translateY(-10vh) scale(1.2) rotate(360deg);
-      opacity: 0;
-    }
+    0%   { transform: translateY(105vh) scale(0) rotate(0deg); opacity: 0; }
+    8%   { opacity: 0.7; }
+    85%  { opacity: 0.25; }
+    100% { transform: translateY(-10vh) scale(1.1) rotate(360deg); opacity: 0; }
   }
 
-  /* Sparkle rings */
   .ring {
     position: absolute;
     top: 50%; left: 50%;
@@ -178,12 +159,16 @@
   }
 
   @keyframes ringExpand {
-    0% { width: 200px; height: 200px; opacity: 0.7; }
-    100% { width: 500px; height: 500px; opacity: 0; }
+    0%   { width: 160px; height: 160px; opacity: 0.6; }
+    100% { width: 420px; height: 420px; opacity: 0; }
   }
 
   .ring:nth-child(2) { animation-delay: 1s; }
   .ring:nth-child(3) { animation-delay: 2s; }
+
+  @media (max-width: 480px) {
+    .ring { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -202,11 +187,11 @@
     <svg class="heart-svg" viewBox="0 0 100 92" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" class="heart-gradient-start" />
-          <stop offset="100%" class="heart-gradient-end" />
+          <stop offset="0%" stop-color="#ff2d6d" />
+          <stop offset="100%" stop-color="#ff6b9d" />
         </linearGradient>
         <filter id="innerGlow">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="0.8" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation="0.6" />
         </filter>
       </defs>
       <path d="M50 88
@@ -217,7 +202,7 @@
                C78 -2, 94 10, 94 30
                C94 56, 50 88, 50 88Z"
             fill="url(#heartGrad)"
-            stroke="rgba(255,255,255,0.3)"
+            stroke="rgba(255,255,255,0.25)"
             stroke-width="0.5"
             filter="url(#innerGlow)" />
     </svg>
@@ -229,78 +214,90 @@
 </div>
 
 <script>
-  // Canvas particles
-  const canvas = document.getElementById('particles');
-  const ctx = canvas.getContext('2d');
-  let particles = [];
+(function() {
+  var canvas = document.getElementById('particles');
+  var ctx = canvas.getContext('2d');
+  var particles = [];
+  var isMobile = window.innerWidth < 768;
+  var particleCount = isMobile ? 50 : 120;
 
   function resize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   }
-  window.addEventListener('resize', resize);
+  window.addEventListener('resize', function() {
+    resize();
+    isMobile = window.innerWidth < 768;
+    particleCount = isMobile ? 50 : 120;
+    while (particles.length > particleCount) particles.pop();
+    while (particles.length < particleCount) particles.push(new Particle());
+  });
   resize();
 
-  class Particle {
-    constructor() {
-      this.reset();
-      this.y = Math.random() * canvas.height;
-    }
-    reset() {
-      this.x = Math.random() * canvas.width;
-      this.y = canvas.height + 10;
-      this.size = Math.random() * 2.5 + 1;
-      this.speed = Math.random() * 0.8 + 0.3;
-      this.opacity = Math.random() * 0.6 + 0.2;
-      this.drift = Math.random() * 0.4 - 0.2;
-      this.color = Math.random() < 0.7
-        ? `rgba(255, ${100 + Math.random() * 100}, ${140 + Math.random() * 80}, `
-        : `rgba(255, ${200 + Math.random() * 55}, ${200 + Math.random() * 55}, `;
-    }
-    update() {
-      this.y -= this.speed;
-      this.x += this.drift + Math.sin(this.y * 0.02) * 0.3;
-      if (this.y < -10) this.reset();
-    }
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = this.color + this.opacity + ')';
-      ctx.fill();
-    }
+  function Particle() {
+    this.reset();
+    this.y = Math.random() * canvas.height;
   }
+  Particle.prototype.reset = function() {
+    this.x = Math.random() * canvas.width;
+    this.y = canvas.height + 10;
+    this.size = Math.random() * 2.5 + 1;
+    this.speed = Math.random() * 0.8 + 0.3;
+    this.opacity = Math.random() * 0.6 + 0.2;
+    this.drift = Math.random() * 0.4 - 0.2;
+    this.color = Math.random() < 0.7
+      ? 'rgba(255,' + Math.floor(100 + Math.random() * 100) + ',' + Math.floor(140 + Math.random() * 80) + ','
+      : 'rgba(255,' + Math.floor(200 + Math.random() * 55) + ',' + Math.floor(200 + Math.random() * 55) + ',';
+  };
+  Particle.prototype.update = function() {
+    this.y -= this.speed;
+    this.x += this.drift + Math.sin(this.y * 0.02) * 0.3;
+    if (this.y < -10) this.reset();
+  };
+  Particle.prototype.draw = function() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = this.color + this.opacity + ')';
+    ctx.fill();
+  };
 
-  for (let i = 0; i < 120; i++) {
+  for (var i = 0; i < particleCount; i++) {
     particles.push(new Particle());
   }
 
-  function animateParticles() {
+  function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => { p.update(); p.draw(); });
-    requestAnimationFrame(animateParticles);
+    for (var i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
+    }
+    requestAnimationFrame(animate);
   }
-  animateParticles();
+  animate();
 
-  // Floating small hearts
-  const container = document.getElementById('floatingHearts');
-  const heartEmojis = ['💕', '💖', '💗', '💝', '✨', '💫', '🌸', '🩷'];
+  // Floating hearts
+  var container = document.getElementById('floatingHearts');
+  var emojis = ['💕','💖','💗','💝','✨','💫','🌸','🩷'];
 
-  function createFloatingHeart() {
-    const el = document.createElement('span');
+  function createHeart() {
+    var el = document.createElement('span');
     el.className = 'small-heart';
-    el.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
     el.style.left = Math.random() * 100 + '%';
-    el.style.fontSize = (Math.random() * 20 + 14) + 'px';
+    el.style.fontSize = (Math.random() * 18 + 12) + 'px';
     el.style.animationDuration = (Math.random() * 8 + 6) + 's';
     container.appendChild(el);
-
-    el.addEventListener('animationend', () => el.remove());
+    el.addEventListener('animationend', function() { el.remove(); });
   }
 
-  setInterval(createFloatingHeart, 400);
-  for (let i = 0; i < 12; i++) {
-    setTimeout(createFloatingHeart, i * 500);
+  // Slower interval on mobile to save battery
+  var interval = isMobile ? 700 : 400;
+  setInterval(createHeart, interval);
+
+  for (var j = 0; j < 8; j++) {
+    setTimeout(createHeart, j * 600);
   }
+})();
 </script>
 
 </body>
